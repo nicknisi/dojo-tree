@@ -1,13 +1,11 @@
+import { Outlet } from '@dojo/routing/Outlet';
 import { v, w } from '@dojo/widget-core/d';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
-import TreeView from './treeview/TreeView';
+import TreeView from './TreeView';
 
-/**
- * A "Hello World" widget that renders a spinning Dojo 2 logo and the text "Hello, Dojo 2 World!".
- *
- * Refer to the creating widgets tutorial for help: https://dojo.io/tutorials/003_creating_widgets/
- */
-export class HelloWorld extends WidgetBase {
+export const treeContainerOutletName = 'treeView';
+
+class TreeContainer extends WidgetBase {
   private tableData = [
     {name: '0. First Level in Tree', children: [{name: '0.0. Second Level in Tree'}, {name: '0.1. Second Level in Tree'}]},
     {name: '1. First Level in Tree', children: [{name: '1.0. Second Level in Tree'}, {name: '1.1. Second Level in Tree'}]},
@@ -22,10 +20,14 @@ export class HelloWorld extends WidgetBase {
   ];
 
   protected render() {
+
     return v('div', [
-      w(TreeView, {data: this.tableData})
+      w(TreeView, {data: this.tableData}),
     ]);
   }
 }
 
-export default HelloWorld;
+const TreeContainerOutlet = Outlet({index: TreeContainer}, treeContainerOutletName);
+
+export default TreeContainerOutlet;
+

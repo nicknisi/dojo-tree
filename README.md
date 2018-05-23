@@ -1,33 +1,69 @@
-# example
+## Start test application
+ - Clone the project
+ - run `npm install`
+ - run `npm run dev`
+ 
+## Issue 1:
+ 1. open `localhost:9999` in some browser
+ 2. Two buttons (`Test1` and `Test2`) are dispalyed together with test bellow `Test view 2`
+ 3. Click on button named `Test1` --> additional button will appear named `TreeView`
+ 4. Click on `TreeView` button --> Tree displayed
+ 5. Click on `Test2` button --> Miracle...
 
-This project was generated with the [Dojo CLI](https://github.com/dojo/cli) & [Dojo CLI create app command](https://github.com/dojo/cli-create-app).
+Two outlets are displayed at the same time!
 
-## Build
+## Issue 2:
+  1. Do the steps `[1-4]` from the `Issue 1`
+  2. Click on `red arrow '>'` at the first row --> Miracle...
+  
+Sub-tree has been displayed at the end of the tree!
 
-Run `dojo build --mode dist` (the `mode` option defaults to `dist`) to create a production build for the project. The built artifacts will be stored in the `output/dist` directory.
+## Fix for `Issue 1`:
 
-## Development Build
+Open `App.ts` and look at the render method:
 
-Run `dojo build --mode dev` to create a development build for the project. The built artifacts will be stored in the `output/dev` directory.
+```  
+protected render() {
+       return [
+         w(Button, {onClick: () => this.navigate(treeContainerOutletName)}, ['TreeView']),
+         w(TreeContainerOutlet, {})
+       ]
+     }
+   } 
+```
+Wrap the return statement with an additional `div` element and everything will work.
+ 
+ ```  
+ protected render() {
+        return v('div', [
+          w(Button, {onClick: () => this.navigate(treeContainerOutletName)}, ['TreeView']),
+          w(TreeContainerOutlet, {})
+        ]);
+      }
+    } 
+ ```
+ 
+ ## FIx for `Issue 2`:
 
-## Development server
+Open file `TreeView.ts` and find `render` method of `TreeRow` class.
 
-Run `dojo build --mode dev --watch memory --serve` to create an in memory development build and start a development server with hot reload. By default the server runs on port `9999`, navigate to `http://localhost:9999/`.
+```js
+  protected render(): DNode | DNode[] {
+    .
+    .
+    .
+    return [this._renderInDept()].concat(childRows);
+  }
+```
+ 
+Change it to return wrapped elements in the single node and not array of `tr's`.
 
-To change the port of the development use the `--port` option.
-
-## Running unit tests
-
-To run units tests in node only use `dojo test` which uses JIT (just in time) compilation.
-
-To run the unit tests against built bundles, first the run a test build with `dojo build --mode test`. The build test artifacts are written to the `output/test` directory.
-
-Then `dojo test -c local` to run the projects unit tests. These tests are located in the `tests/unit` directory. The `--watch` options can be used with the test build which means that `dojo test` can be re-run without needing to re-build the full application each time.
-
-## Running functional tests
-
-To run the functional tests, first the run a test build with `dojo build --mode test` and then `dojo test -f` to run the projects functional tests. These tests are located in the `tests/functional` directory.
-
-## Further help
-
-To get help for these commands and more, run `dojo` on the command line.
+```js
+  protected render(): DNode | DNode[] {
+    .
+    .
+    .
+    return v('div', [this._renderInDept()].concat(childRows));
+  }
+```
+ 

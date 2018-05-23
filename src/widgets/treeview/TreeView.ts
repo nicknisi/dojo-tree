@@ -47,7 +47,7 @@ class TreeRow extends WidgetBase<TreeRowProperties> {
     const key = index.join('_');
     const childSelected = this.expandedIndexes[key];
     const childRows: DNode[] = [];
-    if (childSelected) {
+    if (childSelected && data.children) {
       data.children.forEach((children: any, indexLevel: any) => {
         const newIndex = [index, indexLevel];
         childRows.push(w(TreeRow, {
@@ -58,7 +58,7 @@ class TreeRow extends WidgetBase<TreeRowProperties> {
         }));
       });
     }
-    return [this._renderInDept()].concat(childRows);
+    return v('div', [this._renderInDept()].concat(childRows));
   }
 }
 
