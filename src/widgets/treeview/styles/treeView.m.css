@@ -1,0 +1,23 @@
+table, tr, td {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.collapsableColumn {
+  display: inline-flex;
+}
+
+.collapsableColumn.first {
+  background: lightseagreen;
+}
+
+.collapsableColumn.second {
+  background: lightskyblue;
+  margin-left: 10px;
+}
+
+.toggler {
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
