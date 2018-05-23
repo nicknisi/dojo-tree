@@ -58,7 +58,7 @@ class TreeRow extends WidgetBase<TreeRowProperties> {
         }));
       });
     }
-    return v('div', [this._renderInDept()].concat(childRows));
+    return [this._renderInDept()].concat(childRows);
   }
 }
 
