@@ -16,7 +16,7 @@ class TreeRow extends WidgetBase<TreeRowProperties> {
 
   constructor() {
     super();
-    this.expandedIndexes = {};
+    this.expandedIndexes = { 0: true };
   }
 
   private _toggleDepth(key: any) {
