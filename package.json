@@ -1,6 +1,7 @@
 {
   "name": "example",
   "version": "1.0.0",
+  "main": "src/main.ts",
   "scripts": {
     "dev": ".\\node_modules\\.bin\\dojo build -w -s -m dev"
   },
